@@ -22,7 +22,7 @@ provider:
 
 functions:
   postMission:
-    handler: handler.postMission
+    handler: missions/handler.postMission
     environment:
       BUCKET: ${self:custom.bucket}
     events:
@@ -32,7 +32,7 @@ functions:
           cors: true
           
   getMissions:
-    handler: handler.getMissions
+    handler: missions/handler.getMissions
     environment:
       BUCKET: ${self:custom.bucket}
     events:
@@ -42,7 +42,7 @@ functions:
           cors: true
 
   postAttachment:
-    handler: attachments.postAttachment
+    handler: missions/attachments.postAttachment
     environment:
       BUCKET: ${self:custom.bucket}
     events:
@@ -52,7 +52,7 @@ functions:
           cors: true
 
   attendMission:
-    handler: handler.attendMission
+    handler: missions/handler.attendMission
     environment:
       BUCKET: ${self:custom.bucket}
     events:
