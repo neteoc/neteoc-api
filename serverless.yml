@@ -1,0 +1,62 @@
+service: missions
+
+frameworkVersion: ">=1.1.0"
+
+custom:
+  bucket: missions.neteoc.com
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  memorySize: 128 # optional, in MB, default is 1024
+  runtime: nodejs6.10
+  stage: dev
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+      Resource: "arn:aws:s3:::${self:custom.bucket}/*"
+
+functions:
+  postMission:
+    handler: handler.postMission
+    environment:
+      BUCKET: ${self:custom.bucket}
+    events:
+      - http:
+          path: /
+          method: post
+          cors: true
+          
+  getMissions:
+    handler: handler.getMissions
+    environment:
+      BUCKET: ${self:custom.bucket}
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
+
+  postAttachment:
+    handler: attachments.postAttachment
+    environment:
+      BUCKET: ${self:custom.bucket}
+    events:
+      - http:
+          path: /{missionId}/attachments
+          method: post
+          cors: true
+
+  attendMission:
+    handler: handler.attendMission
+    environment:
+      BUCKET: ${self:custom.bucket}
+    events:
+      - http:
+          path: /{missionId}/attend
+          method: post
+          cors: true
