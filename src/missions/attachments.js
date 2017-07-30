@@ -43,8 +43,25 @@ module.exports.getAttachments = (event, context, callback) => {
 };
 
 module.exports.getAttachment = (event, context, callback) => {
+
+    var missionId = event.pathParameters.missionId;
+    var attachmentId = event.pathParameters.attachmentId;
+
+    getAttachment(missionId + "/" + attachmentId).then(function(attachment) {
+
+        const response = {
+            statusCode: 200,
+            body: JSON.stringify(attachment),
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        };
+
+        callback(null, response);
+    });
 }
 
+// currently unused, maybe delete ...
 module.exports.getAllAttachments = (event, context, callback) => {
 
     var mission = JSON.parse(event.body);
@@ -56,7 +73,7 @@ module.exports.getAllAttachments = (event, context, callback) => {
 
     var params = {
         Bucket: process.env.BUCKET,
-        Key: "missions/" + mission.id
+        Key: mission.id
     }
 
     s3.listObjects(params, function(err, data) {
@@ -111,7 +128,7 @@ function getAttachment(key) {
           resolve({});
         } else {
 
-          resolve(JSON.parse(data.Body.toString()));
+          resolve(data.Body.toString());
         }
     });
   });
@@ -119,29 +136,35 @@ function getAttachment(key) {
 
 module.exports.postAttachment = (event, context, callback) => {
 
-    var attachment = JSON.parse(event.body);
+    var attachments = JSON.parse(event.body);
 
-    attachment = attachment.upload;
+    attachments = attachments.uploads;
 
-    var buf = new Buffer(attachment.contents.replace(/^data:application\/\w+;base64,/, ""),'base64');
+    for(var index in attachments) {
 
-    s3.putObject({
-      Bucket: process.env.BUCKET,
-      Key: event.pathParameters.missionId + "/" + attachment.name,
-      Body: buf,
-      ContentEncoding: 'base64',
-    }).promise()
-        .then(function(result) {
+        var attachment = attachments[index];
 
-        const response = {
-            statusCode: 201,
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            }
-        };
+        // TODO: support images and other data types
+        var buf = new Buffer(attachment.replace(/^data:application\/\w+;base64,/, ""),'base64');
 
-        callback(null, response);
+        s3.putObject({
+            Bucket: process.env.BUCKET,
+            Key: event.pathParameters.missionId + "/" + index,
+            Body: buf,
+            ContentEncoding: 'base64',
+        })
+        .promise().then(function(result) {
+
+            const response = {
+                statusCode: 201,
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }
+            };
+
+            callback(null, response);
         }); 
+    }
 };
 
 module.exports.deleteAttachment = (event, context, callback) => {

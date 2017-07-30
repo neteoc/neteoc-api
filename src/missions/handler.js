@@ -5,6 +5,21 @@ const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-depe
 
 const s3 = new AWS.S3();
 
+module.exports.getMissions = (event, context, callback) => {
+
+  getMissions().then(function(missions) {
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify(missions),
+      headers: {
+          'Access-Control-Allow-Origin': '*'
+      }
+    };
+
+    callback(null, response);
+  });
+};
+
 module.exports.postMission = (event, context, callback) => {
 
   // TODO: try, and encapsulate return error with the if mission id ...
@@ -31,21 +46,6 @@ module.exports.postMission = (event, context, callback) => {
 
         callback(null, response);
       }); 
-  });
-};
-
-module.exports.getMissions = (event, context, callback) => {
-
-  getMissions().then(function(missions) {
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify(missions),
-      headers: {
-          'Access-Control-Allow-Origin': '*'
-      }
-    };
-
-    callback(null, response);
   });
 };
 
