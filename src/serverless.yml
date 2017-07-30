@@ -43,6 +43,7 @@ functions:
           cors: true
           
   getAttachments:
+    handler: missions/attachments.getAttachments
     environment:
       BUCKET: ${self:custom.bucket}
     events:
@@ -52,6 +53,7 @@ functions:
           cors: true
           
   getAttachment:
+    handler: missions/attachments.getAttachment
     environment:
       BUCKET: ${self:custom.bucket}
     events:
