@@ -1,5 +1,6 @@
 node_modules
 .serverless
+src/yarn.lock
 
 # Logs
 logs
