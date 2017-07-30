@@ -38,6 +38,7 @@ jobs:
       - deploy:
           name: Maybe Deploy
           command: |
+            cd src
             if [[ "${CIRCLE_TAG}" == *"release"* ]]; then
               yarn run deployprod
             else
