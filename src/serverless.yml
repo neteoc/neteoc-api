@@ -3,7 +3,8 @@ service: neteocAPI
 frameworkVersion: ">=1.1.0"
 
 custom:
-  bucket: ${opt:stage}.missions.neteoc
+  myStage: ${opt:stage, self:provider.stage}
+  bucket: ${self:custom.myStage}.missions.neteoc
 
 plugins:
   - serverless-offline
@@ -38,6 +39,26 @@ functions:
     events:
       - http:
           path: /
+          method: get
+          cors: true
+          
+  getAttachments:
+    handler: missions/attachments.getAttachments
+    environment:
+      BUCKET: ${self:custom.bucket}
+    events:
+      - http:
+          path: /{missionId}/attachments
+          method: get
+          cors: true
+          
+  getAttachment:
+    handler: missions/attachments.getAttachment
+    environment:
+      BUCKET: ${self:custom.bucket}
+    events:
+      - http:
+          path: /{missionId}/attachments/{attachmentId}
           method: get
           cors: true
 
