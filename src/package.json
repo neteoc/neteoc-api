@@ -1,0 +1,21 @@
+{
+  "name": "aws-fetch-file-and-store-in-s3",
+  "description": "Fetch an image from remote source (URL) and then upload the image to a S3 bucket.",
+  "version": "1.0.0",
+  "author": "Bozhao Yu",
+  "license": "MIT",
+  "scripts": {
+        "info": "./node_modules/.bin/serverless info",
+        "deploydev": "./node_modules/.bin/serverless deploy --stage dev",
+        "deployprod": "./node_modules/.bin/serverless deploy --stage prod",
+        "offline": "./node_modules/.bin/serverless offline start --stage dev"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.7.9",
+    "node-fetch": "^1.6.3",
+    "serverless": "^1.17.0"
+  },
+  "devDependencies": {
+    "serverless-offline": "^3.15.0"
+  }
+}

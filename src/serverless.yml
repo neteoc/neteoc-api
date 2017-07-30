@@ -1,9 +1,9 @@
-service: missions
+service: neteocAPI
 
 frameworkVersion: ">=1.1.0"
 
 custom:
-  bucket: missions.neteoc.com
+  bucket: ${opt:stage}.missions.neteoc
 
 plugins:
   - serverless-offline
@@ -60,3 +60,4 @@ functions:
           path: /{missionId}/attend
           method: post
           cors: true
+
