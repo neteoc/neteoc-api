@@ -29,19 +29,17 @@ jobs:
         
       # run tests!
       #- run: yarn run deploy
+      # this is a change
 
       - deploy:
           name: Maybe Deploy
           working_directory: ~/repo/src
           command: |
-            ls -lah
-            pwd
-            if [[ "${CIRCLE_TAG}" == *"release"* ]]; then
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
               yarn run deployprod
             else
-              if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                yarn run deploydev
-              fi
+              yarn run deploydev
             fi
+            
 
 
