@@ -53,7 +53,7 @@ functions:
           cors: true
           
   getAttachment:
-    handler: missions/attachments.getAttachment
+    handler: missions/attachments.getAttachmentLink
     environment:
       BUCKET: ${self:custom.bucket}
     events:

@@ -42,6 +42,27 @@ module.exports.getAttachments = (event, context, callback) => {
     });
 };
 
+module.exports.getAttachmentLink = (event, context, callback) => {
+
+    var missionId = event.pathParameters.missionId;
+    var attachmentId = event.pathParameters.attachmentId;
+
+    var url = s3.getSignedUrl('getObject', {
+        Bucket: process.env.BUCKET,
+        Key: missionId + "/" + attachmentId,
+        Expires: 60
+    });
+
+    const response = {
+        statusCode: 301,
+        headers: {
+            Location: url
+        }
+    };
+
+    callback(null, response);
+}
+
 module.exports.getAttachment = (event, context, callback) => {
 
     var missionId = event.pathParameters.missionId;
