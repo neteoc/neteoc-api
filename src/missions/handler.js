@@ -5,19 +5,38 @@ const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-depe
 
 const s3 = new AWS.S3();
 
+
+const neteocauth = require('../authlib')
+
 module.exports.getMissions = (event, context, callback) => {
 
-  getMissions().then(function(missions) {
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify(missions),
-      headers: {
-          'Access-Control-Allow-Origin': '*'
-      }
-    };
+   neteocauth.validateJWT(event).then(
+      getMissions().then(function(missions) {
+          const response = {
+            statusCode: 200,
+            body: JSON.stringify(missions),
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+          };
 
+          callback(null, response);
+        })
+   ).catch(err => {
+    const response = {
+      statusCode: 403,
+      body: JSON.stringify({
+        message: err,
+        input: event
+      }),
+      headers: {
+        "Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+      },
+    };
     callback(null, response);
   });
+
+  
 };
 
 module.exports.postMission = (event, context, callback) => {
