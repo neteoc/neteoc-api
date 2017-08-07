@@ -2,7 +2,7 @@ const Promise = require('promise');
 var request = require('request');
 
 module.exports.validateJWT = (event) => {
-  if (event.headers.Host == "localhost:30001"){
+  if (event.headers.Host.indexOf("localhost") == 0) {
       return new Promise(function(resolve){
       console.log("we be localhost")
       resolve();

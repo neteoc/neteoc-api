@@ -45,7 +45,7 @@ module.exports.getAttachments = (event, context, callback) => {
 module.exports.getAttachmentLink = (event, context, callback) => {
 
     var missionId = event.pathParameters.missionId;
-    var attachmentId = event.pathParameters.attachmentId;
+    var attachmentId = unescape(event.pathParameters.attachmentId);
 
     var url = s3.getSignedUrl('getObject', {
         Bucket: process.env.BUCKET,
