@@ -5,14 +5,16 @@
   "author": "Bozhao Yu",
   "license": "MIT",
   "scripts": {
-        "info": "./node_modules/.bin/serverless info",
-        "deploydev": "./node_modules/.bin/serverless deploy --stage dev",
-        "deployprod": "./node_modules/.bin/serverless deploy --stage prod",
-        "offline": "./node_modules/.bin/serverless offline start --stage dev"
+    "info": "./node_modules/.bin/serverless info",
+    "deploydev": "./node_modules/.bin/serverless deploy --stage dev",
+    "deployprod": "./node_modules/.bin/serverless deploy --stage prod",
+    "offline": "./node_modules/.bin/serverless offline start --stage dev"
   },
   "dependencies": {
     "aws-sdk": "^2.7.9",
     "node-fetch": "^1.6.3",
+    "promise": "^8.0.1",
+    "request": "^2.81.0",
     "serverless": "^1.17.0"
   },
   "devDependencies": {
