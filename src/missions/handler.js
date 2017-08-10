@@ -102,7 +102,7 @@ function getMissions() {
 
 module.exports.attendMission = (event, context, callback) => {
 
-  var missionId = event.path.replace('/','');
+  var missionId = event.pathParameters.missionId;
   // TODO: call auth service to get full user object (with name!)
   var userId = event.body;
 
