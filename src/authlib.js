@@ -1,6 +1,7 @@
 const Promise = require('promise');
 var request = require('request');
 
+// TODO: Do we need promise or can we just use the stuff that's built in?
 module.exports.validateJWT = (event) => {
   if (event.headers.Host.indexOf("localhost") == 0) {
       return new Promise(function(resolve){
@@ -22,8 +23,6 @@ module.exports.validateJWT = (event) => {
             },
             function (error, response, body) {
                 console.log('error:', error); // Print the error if one occurred
-                console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-                console.log('body:', body); // Print the HTML for the Google homepage.
                 if (response.statusCode == 200) {
                     resolve();
                 } else {
