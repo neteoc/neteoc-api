@@ -21,7 +21,12 @@ module.exports.getAttachments = (event, context, callback) => {
 
     s3.listObjects(params, function(err, data) {
 
-        if (err) console.log(err, err.stack); // an error occurred
+        if (err) {
+            console.log("Something is broke trying to list objects in path " + missionId + " in bucket " + process.env.BUCKET);
+            console.log(err, err.stack); // an error occurred
+        } else if(data.Contents == null) {
+            console.log("Didn't error, but contents are null because I'm stupid");
+        }
 
         var attachments = [];
 
