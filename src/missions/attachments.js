@@ -19,7 +19,7 @@ module.exports.getAttachments = (event, context, callback) => {
         Prefix: missionId
     }
 
-    s3.listObjects(params, function(err, data) {
+    s3.listObjectsV2(params, function(err, data) {
 
         if (err) {
             console.log("Something is broke trying to list objects in path " + missionId + " in bucket " + process.env.BUCKET);
