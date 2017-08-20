@@ -23,8 +23,6 @@ jobs:
           working_directory: ~/repo/src
           command: |
             yarn install
-            ls -lah
-            pwd
 
         
       # run tests!
